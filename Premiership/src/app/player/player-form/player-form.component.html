@@ -1,0 +1,10 @@
+<form>
+    <input type="hidden" name="playerId"
+    [value]="service.formData.playerId" />
+    <div class="form-group">
+        <label>Player name</label>
+        <input class="form-control form-control-lg" placeholder="Player name"
+        name="playerName" #playerName="ngModel" [(ngModel)]="service.formData.playerName">
+    </div>
+
+</form>

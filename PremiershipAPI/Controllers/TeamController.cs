@@ -6,55 +6,55 @@ namespace PremiershipAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class PlayerController : ControllerBase
+    public class TeamController : ControllerBase
     {
         private readonly ApplicationDbContext _context;
 
-        public PlayerController(ApplicationDbContext context)
+        public TeamController(ApplicationDbContext context)
         {
             _context = context;
         }
 
-        // GET: api/Player
+        // GET: api/Team
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Player>>> GetPlayers()
+        public async Task<ActionResult<IEnumerable<Team>>> GetTeams()
         {
-          if (_context.Players == null)
+          if (_context.Teams == null)
           {
               return NotFound();
           }
-            return await _context.Players.ToListAsync();
+            return await _context.Teams.ToListAsync();
         }
 
-        // GET: api/Player/{id}
+        // GET: api/Team/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Player>> GetPlayer(int id)
+        public async Task<ActionResult<Team>> GetTeam(int id)
         {
-          if (_context.Players == null)
+          if (_context.Teams == null)
           {
               return NotFound();
           }
-            var player = await _context.Players.FindAsync(id);
+            var team = await _context.Teams.FindAsync(id);
 
-            if (player == null)
+            if (team == null)
             {
                 return NotFound();
             }
 
-            return player;
+            return team;
         }
 
-        // PUT: api/Player/5
+        // PUT: api/Team/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutPlayer(int id, Player player)
+        public async Task<IActionResult> PutTeam(int id, Team team)
         {
-            if (id != player.PlayerId)
+            if (id != team.TeamId)
             {
                 return BadRequest();
             }
 
-            _context.Entry(player).State = EntityState.Modified;
+            _context.Entry(team).State = EntityState.Modified;
 
             try
             {
@@ -62,7 +62,7 @@ namespace PremiershipAPI.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!PlayerExists(id))
+                if (!TeamExists(id))
                 {
                     return NotFound();
                 }
@@ -75,44 +75,44 @@ namespace PremiershipAPI.Controllers
             return NoContent();
         }
 
-        // POST: api/Player
+        // POST: api/Team
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<Player>> PostPlayer(Player player)
+        public async Task<ActionResult<Team>> PostTeam(Team team)
         {
-          if (_context.Players == null)
+          if (_context.Teams == null)
           {
-              return Problem("Entity set 'ApplicationDbContext.Players'  is null.");
+              return Problem("Entity set 'ApplicationDbContext.Teams'  is null.");
           }
-            _context.Players.Add(player);
+            _context.Teams.Add(team);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetPlayer", new { id = player.PlayerId }, player);
+            return CreatedAtAction("GetTeam", new { id = team.TeamId }, team);
         }
 
-        // DELETE: api/Player/5
+        // DELETE: api/Team/5
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeletePlayer(int id)
+        public async Task<IActionResult> DeleteTeam(int id)
         {
-            if (_context.Players == null)
+            if (_context.Teams == null)
             {
                 return NotFound();
             }
-            var player = await _context.Players.FindAsync(id);
-            if (player == null)
+            var team = await _context.Teams.FindAsync(id);
+            if (team == null)
             {
                 return NotFound();
             }
 
-            _context.Players.Remove(player);
+            _context.Teams.Remove(team);
             await _context.SaveChangesAsync();
 
             return NoContent();
         }
 
-        private bool PlayerExists(int id)
+        private bool TeamExists(int id)
         {
-            return (_context.Players?.Any(e => e.PlayerId == id)).GetValueOrDefault();
+            return (_context.Teams?.Any(e => e.TeamId == id)).GetValueOrDefault();
         }
     }
 }
